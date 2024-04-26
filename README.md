@@ -12,3 +12,8 @@ This project aims to create a program that given a region of a map as an input, 
 - Stockholm
 - Tallinn
 - Zagreb
+
+## TODO
+- [x] First version of the classifier using Template Matching (only supports cropped regions of the same map?)
+- [ ] Second version using SIFT (or similar technique) (works with rotated, scaled images)
+- [ ] Final version using deep learning
