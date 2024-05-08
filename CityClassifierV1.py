@@ -9,6 +9,7 @@ City Classifier
 First version using Template Matching.
 Limitations:
     - Does not work with scale/rotation
+    - Works OK with classification
 """
 class CityClassifier():
     def __init__(self, show_results: False):
@@ -56,7 +57,7 @@ class CityClassifier():
             bottom_right = (top_left[0] + w, top_left[1] + h)
 
             t1 = time.time()
-            print(f"Done in {t1-t0} seconds.")
+            print(f"Done in {t1-t0} seconds. Confidence {confidence}")
 
             if self.show_results_enabled:
                 self.show_result(map_img,top_left,bottom_right,res)

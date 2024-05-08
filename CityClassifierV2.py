@@ -12,6 +12,7 @@ Second version using SIFT (Scale Invariant Feature Transform).
 Improvements and limitations:
     - Works with scale
     - Works with rotation
+    - Works with positioning
     - Is slower than V1 (27s per map vs 0.9s)
 """
 import cv2
@@ -64,7 +65,7 @@ class CityClassifier():
             scores[os.path.basename(map_file)] = confidence
 
             t1 = time.time()
-            print(f"Done in {t1-t0} seconds.")
+            print(f"Done in {t1-t0} seconds. Confidence {confidence}")
 
             if len(good_matches) > 10:  # Adjust this threshold as needed
                 # self.show_result(map_img, None, None, kp_query, kp_map, good_matches)
