@@ -23,7 +23,7 @@ import time
 from matplotlib import pyplot as plt
 
 class CityClassifier():
-    def __init__(self,show_results: False):
+    def __init__(self,show_results: True):
         self.sift = cv2.SIFT_create()
         self.show_results_enabled = show_results
 

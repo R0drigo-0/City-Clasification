@@ -14,7 +14,7 @@ def trim_crop_rotate_images(input_folder, output_folder, crop_count=100, crop_si
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     for filename in os.listdir(input_folder):
-        if filename.endswith('holm.jpg'):
+        if filename.endswith('.jpg'):
             input_path = os.path.join(input_folder, filename)
             output_path_prefix = os.path.join(output_folder, os.path.splitext(filename)[0])
             with Image.open(input_path) as img:
