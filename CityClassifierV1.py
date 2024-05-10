@@ -29,6 +29,7 @@ class CityClassifier():
         plt.show()
 
     def classify(self, query_image):
+        query_image = cv2.imread(query_image, cv2.IMREAD_GRAYSCALE)
         scores = {}
         for map_file in glob.glob("./images/*.jpg"):
             print(f"Matching against {os.path.basename(map_file)}")

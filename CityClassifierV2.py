@@ -36,6 +36,7 @@ class CityClassifier():
         plt.show()
 
     def classify(self, query_image):
+        query_image = cv2.imread(query_image, cv2.IMREAD_GRAYSCALE)
         scores = {}
         kp_query, des_query = self.sift.detectAndCompute(query_image, None)
 
@@ -43,9 +44,9 @@ class CityClassifier():
             subdir_path = os.path.join("images/subimages", subdir)
             if not os.path.isdir(subdir_path):
                 continue
-            print(f"Matching against images in {subdir}")
+            # print(f"Matching against images in {subdir}")
             for map_file in glob.glob(os.path.join(subdir_path, "*.jpg")):
-                print(f"Matching against {os.path.basename(map_file)}")
+                # print(f"Matching against {os.path.basename(map_file)}")
                 t0 = time.time()
                 map_img = cv2.imread(map_file, cv2.IMREAD_GRAYSCALE)
 
@@ -74,7 +75,7 @@ class CityClassifier():
                 scores[os.path.basename(map_file)] = confidence
 
                 t1 = time.time()
-                print(f"Done in {t1-t0} seconds. Confidence {confidence}")
+                # print(f"Done in {t1-t0} seconds. Confidence {confidence}")
 
                 if len(good_matches) > 10:  # Adjust this threshold as needed
                     if self.show_results_enabled:
