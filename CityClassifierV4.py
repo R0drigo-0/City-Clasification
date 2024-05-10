@@ -18,6 +18,8 @@ import glob
 import time
 from matplotlib import pyplot as plt
 
+from tqdm import tqdm
+
 class CityClassifier():
     def __init__(self,show_results: True):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # 'mps', 'cpu'
@@ -34,8 +36,8 @@ class CityClassifier():
         scores = {}
         device = self.device
 
-        for map_file in glob.glob("images/*.jpg"):
-            print(f"Matching against {os.path.basename(map_file)}")
+        for map_file in tqdm(glob.glob("images/*.jpg")):
+            # print(f"Matching against {os.path.basename(map_file)}")
             t0 = time.time()
             # map_img = cv2.imread(map_file, cv2.IMREAD_GRAYSCALE)
 
@@ -58,10 +60,10 @@ class CityClassifier():
             scores[os.path.basename(map_file)] = confidence
 
             t1 = time.time()
-            print(f"Done in {t1-t0} seconds. Confidence {confidence}")
+            # print(f"Done in {t1-t0} seconds. Confidence {confidence}")
 
             # if len(good_matches) > 10:  # Adjust this threshold as needed
             #     if self.show_results_enabled:
             #         self.show_result(query_image, map_img, kp_query, _, good_matches)
-
-        return max(scores, key=scores.get)
+        result = max(scores, key=scores.get)
+        return result, scores[result]

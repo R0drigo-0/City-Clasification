@@ -23,6 +23,7 @@ import os
 import glob
 import time
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 class CityClassifier():
     def __init__(self,show_results: True):
@@ -36,11 +37,11 @@ class CityClassifier():
         plt.show()
 
     def classify(self, query_image):
-        query_image = cv2.imread(query_image, cv2.IMREAD_GRAYSCALE)
+        query_image = cv2.imread(query_image)
         scores = {}
         kp_query, des_query = self.sift.detectAndCompute(query_image, None)
 
-        for subdir in os.listdir("images/subimages"):
+        for subdir in tqdm(os.listdir("images/subimages")):
             subdir_path = os.path.join("images/subimages", subdir)
             if not os.path.isdir(subdir_path):
                 continue
@@ -48,7 +49,7 @@ class CityClassifier():
             for map_file in glob.glob(os.path.join(subdir_path, "*.jpg")):
                 # print(f"Matching against {os.path.basename(map_file)}")
                 t0 = time.time()
-                map_img = cv2.imread(map_file, cv2.IMREAD_GRAYSCALE)
+                map_img = cv2.imread(map_file)
 
                 # kp_map, des_map = self.sift.detectAndCompute(map_img, None)
                 with gzip.open(map_file + '_sift_descriptors.bin.gz', 'rb') as file:
