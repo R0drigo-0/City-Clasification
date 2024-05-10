@@ -5,6 +5,8 @@ from matplotlib import pyplot as plt
 import glob
 import time
 import os
+import pickle
+import gzip
 
 """
 City Classifier
@@ -24,7 +26,7 @@ from matplotlib import pyplot as plt
 
 class CityClassifier():
     def __init__(self,show_results: True):
-        self.sift = cv2.SIFT_create()
+        self.sift = cv2.SIFT_create(5000)
         self.show_results_enabled = show_results
 
     def show_result(self, query_image, map_img, kp_query, kp_map, good_matches):
@@ -47,7 +49,10 @@ class CityClassifier():
                 t0 = time.time()
                 map_img = cv2.imread(map_file, cv2.IMREAD_GRAYSCALE)
 
-                kp_map, des_map = self.sift.detectAndCompute(map_img, None)
+                # kp_map, des_map = self.sift.detectAndCompute(map_img, None)
+                with gzip.open(map_file + '_sift_descriptors.bin.gz', 'rb') as file:
+                    # Serialize and write the variable to the file
+                    des_map = pickle.load(file)
 
                 # FLANN parameters
                 FLANN_INDEX_KDTREE = 1
@@ -59,7 +64,6 @@ class CityClassifier():
                 # Matching descriptor vectors using KNN
                 matches = flann.knnMatch(des_query, des_map, k=2)
 
-                # Ratio test as per Lowe's paper
                 good_matches = []
                 for m, n in matches:
                     if m.distance < 0.7 * n.distance:
@@ -74,6 +78,28 @@ class CityClassifier():
 
                 if len(good_matches) > 10:  # Adjust this threshold as needed
                     if self.show_results_enabled:
-                        self.show_result(query_image, map_img, kp_query, kp_map, good_matches)
+                        self.show_result(query_image, map_img, kp_query, _, good_matches)
 
         return max(scores, key=scores.get)
+
+    def generate_map_descriptors(self):
+        """
+        This function generates the descriptor points using SIFT for all maps and saves them
+        as a binary file so we don't have to compute them at classification time.
+
+        """
+        for subdir in os.listdir("images/subimages"):
+            subdir_path = os.path.join("images/subimages", subdir)
+            if not os.path.isdir(subdir_path):
+                continue
+            print(f"Generating descriptors for images in {subdir}")
+            for map_file in glob.glob(os.path.join(subdir_path, "*.jpg")):
+                print(f"Generating descriptors for {os.path.basename(map_file)}")
+                t0 = time.time()
+                map_img = cv2.imread(map_file, cv2.IMREAD_GRAYSCALE)
+
+                kp_map, des_map = self.sift.detectAndCompute(map_img, None)
+                # Open the file in binary mode
+                with gzip.open(map_file + '_sift_descriptors.bin.gz', 'wb') as file:
+                    # Serialize and write the variable to the file
+                    pickle.dump(des_map, file)

@@ -4,7 +4,9 @@ import cv2
 from CityClassifierV2 import CityClassifier
 
 c = CityClassifier(show_results = False)
-query = cv2.imread("./images/train/Berlin_crop_13.png", cv2.IMREAD_GRAYSCALE)
+c.generate_map_descriptors()
+query = cv2.imread("./images/train/Barcelona_crop_1.png", cv2.IMREAD_GRAYSCALE)
+
 result = c.classify(query)
 print(f"Result: {result}")
 exit()
