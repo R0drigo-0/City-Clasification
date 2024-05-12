@@ -42,9 +42,13 @@ Improvements and limitations:
 - Is slower than V1
 
 # Version 3
-Work in progress
-
-Experiment using other methods different from SIFT.
+Experimental third version using LBP (Local Binary Patterns).
+Improvements and limitations:
+- Works decently with scale
+- Works decently with rotation
+- Works with positioning
+- Is decently fast
+- Makes some mistakes
 
 # Version 4
 Work in progress
