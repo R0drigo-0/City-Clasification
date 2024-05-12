@@ -4,6 +4,7 @@ import cv2
 
 # from CityClassifierV1 import CityClassifier
 # from CityClassifierV2 import CityClassifier
+# from CityClassifierV3 import CityClassifier
 from CityClassifierV4 import CityClassifier
 
 c = CityClassifier(show_results = False)
