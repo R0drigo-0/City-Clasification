@@ -30,5 +30,5 @@ def trim_crop_rotate_images(input_folder, output_folder, crop_count=100, crop_si
                     crop.save(f"{output_path_prefix}_crop_{i}.png")
 
 input_folder = "images"
-output_folder = "images/train"
+output_folder = "images/test"
 trim_crop_rotate_images(input_folder, output_folder)

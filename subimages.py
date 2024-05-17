@@ -19,17 +19,20 @@ def crop_image(input_image_path, output_directory, output_prefix):
     # Calculate the dimensions of each subimage
     sub_width = width // 2
     sub_height = height // 2
+
+    sub_width_step = width // 3
+    sub_height_step = height // 3
     
     # Create a subdirectory for the output images
     output_path = os.path.join(output_directory, output_prefix)
     os.makedirs(output_path, exist_ok=True)
     
     # Crop and save the four subimages
-    for i in range(2):
-        for j in range(2):
+    for i in range(3):
+        for j in range(3):
             # Calculate coordinates for cropping
-            x = i * sub_width
-            y = j * sub_height
+            x = i * sub_width_step
+            y = j * sub_height_step
             # Crop the image to get the subimage
             subimg = img.crop((x, y, x + sub_width, y + sub_height))
             # Save the subimage
