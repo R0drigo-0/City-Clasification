@@ -27,8 +27,8 @@ class CityClassifier():
         plt.title('Detected Point')
         plt.show()
 
-    def classify(self, query_image):
-        query_image = cv2.imread(query_image, cv2.IMREAD_GRAYSCALE)
+    def classify(self, query_image_path):
+        query_image = cv2.imread(query_image_path, cv2.IMREAD_GRAYSCALE)
         scores = {}
 
         for subdir in tqdm(os.listdir("images/subimages")):

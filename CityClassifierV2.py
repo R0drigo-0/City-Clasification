@@ -51,10 +51,11 @@ class CityClassifier():
                 t0 = time.time()
                 map_img = cv2.imread(map_file)
 
-                # kp_map, des_map = self.sift.detectAndCompute(map_img, None)
+                # # Load precomputed descriptors
                 with gzip.open(map_file + '_sift_descriptors.bin.gz', 'rb') as file:
-                    # Serialize and write the variable to the file
                     des_map = pickle.load(file)
+
+                # kp_map, des_map = self.sift.detectAndCompute(map_img, None)
 
                 # FLANN parameters
                 FLANN_INDEX_KDTREE = 1
@@ -80,7 +81,7 @@ class CityClassifier():
 
                 if len(good_matches) > 10:  # Adjust this threshold as needed
                     if self.show_results_enabled:
-                        self.show_result(query_image, map_img, kp_query, _, good_matches)
+                        self.show_result(query_image, map_img, kp_query, kp_map, good_matches)
 
         return max(scores, key=scores.get)
 

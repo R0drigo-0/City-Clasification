@@ -4,15 +4,13 @@ import cv2
 
 import csv
 
-# from CityClassifierV1 import CityClassifier
+from CityClassifierV1 import CityClassifier
 # from CityClassifierV2 import CityClassifier
 # from CityClassifierV3 import CityClassifier
 from CityClassifierV4 import CityClassifier
 
-c = CityClassifier(show_results = False)
-# c.generate_map_descriptors()
-query = cv2.imread("./images/test/Barcelona_crop_1.png", cv2.IMREAD_GRAYSCALE)
-query = "./images/test/Barcelona_crop_1.png"
+c = CityClassifier(show_results = True)
+c.generate_map_descriptors()
 
 # result = c.classify(query)
 # print(f"Result: {result}")
@@ -20,7 +18,9 @@ query = "./images/test/Barcelona_crop_1.png"
 # Test all images in test
 
 test_images = glob.glob("./images/test/*.png")
-with open('./results/V2.csv', 'w', newline='') as csvfile:
+# test_images = ["./images/test/Barcelona_crop_11.png"]
+# test_images = ["./images/test-extended/maps06.png"]
+with open('./results/V4.csv', 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
     csvwriter.writerow(["Input file", "Prediction"])
     for query in test_images:
